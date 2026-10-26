@@ -72,6 +72,9 @@ export function publicService(fetcher = fetch) {
   const detail = async slug => parseDetail(await page(`/tournaments/${encodeURIComponent(slug)}`), slug);
   return {
     detail,
+    calendar:async()=>parseCalendar(await page('/calendar')),
+    results:async()=>parseResults(await page('/results')),
+    news:async slug=>parseNews(await page(`/news/${encodeURIComponent(slug)}`),slug),
     async feed() {
       if (cached && Date.now() < expires) return cached;
       if (pending) return pending;
@@ -95,4 +98,34 @@ export function publicService(fetcher = fetch) {
       return parsePlayers(await page(`/tournaments/${encodeURIComponent(slug)}/entries`));
     }
   };
+}
+
+export function parseCalendar(html){
+  const $=load(html);const items=[];
+  $('main div.grid').each((_,element)=>{
+    const row=$(element),a=row.find('a[href^="/tournaments/"]').filter((_,x)=>/^\/tournaments\/[^/?#]+$/.test($(x).attr('href')||'')).first();
+    if(!a.length||row.find('div.grid').length)return;
+    const state=clean(row.find('span.uppercase').first().text());
+    if(state==='draft')return;
+    const href=a.attr('href');
+    items.push({slug:href.split('/').pop(),title:clean(a.text()),date:clean(row.children('div').first().text()),year:clean(row.closest('section').find('h2').first().text()),status:state,details:clean(row.find('div.mt-1').first().text()),description:clean(row.find('p').first().text()),club_event:row.text().includes('Club event — active membership'),url:safeLink(href)});
+  });
+  return {title:clean($('main h1').first().text())||'Calendar',items};
+}
+export function parseResults(html){
+  const $=load(html);return $('main article').map((_,element)=>{
+    const row=$(element),heading=row.find('h3').first(),copy=heading.clone();copy.children('span').remove();
+    const title=clean(copy.text());if(!title)return null;
+    const text=row.find('p').map((_,x)=>clean($(x).text())).get();
+    const place=label=>text.find(x=>x.startsWith(`${label}:`))?.slice(label.length+1).trim()||'';
+    return {title,date:clean(heading.find('span').text()),year:clean(row.closest('section').find('h2').first().text()),first:place('1st'),second:place('2nd'),third:place('3rd'),summary:clean(row.find('p.whitespace-pre-line').text()),image:safeLink(row.find('img').attr('src')),links:row.find('a[href]').map((_,x)=>{const url=safeLink($(x).attr('href'));return url?{label:clean($(x).text())||'View results',url}:null;}).get()};
+  }).get();
+}
+export function parseNews(html,slug){
+  const $=load(html);const article=$('main article').first();
+  const title=clean(article.find('h1').first().text());if(!title)throw new Error('News unavailable');
+  article.find('script,style,form,button').remove();
+  const blocks=article.find('h2,h3,h4,p,li').map((_,x)=>clean($(x).text())).get().filter(Boolean);
+  // Article content only. No executable HTML or embedded Next.js payloads.
+  return {title,date:blocks[0]||'',image:safeLink(article.find('img').attr('src')),paragraphs:blocks.slice(1),url:safeLink(`/news/${encodeURIComponent(slug)}`)};
 }

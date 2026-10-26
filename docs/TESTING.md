@@ -1,3 +1,5 @@
+Latest update: see [NATIVE_FEATURES_UPDATE.md](NATIVE_FEATURES_UPDATE.md) for 20 passing tests and native form validation. The table below records the initial baseline.
+
 # Validation and remaining device checks
 
 Validation performed 26 October 2026.

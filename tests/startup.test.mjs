@@ -15,7 +15,7 @@ test('importing account helpers does not start a listener', () => {
 });
 
 test('direct execution stays running and serves health without credentials', {timeout:15000}, async () => {
-  const env = {...process.env, PORT:'0', MOBILE_ACCOUNTS_ENABLED:'false'};
+  const env = {...process.env, PORT:'0', MOBILE_ACCOUNTS_ENABLED:'false', MOBILE_FORMS_ENABLED:'false'};
   const child = spawn(process.execPath, [fileURLToPath(new URL('../server/index.mjs', import.meta.url))], {env, stdio:['ignore','pipe','pipe']});
   try {
     const port = await new Promise((resolve, reject) => {
@@ -31,6 +31,8 @@ test('direct execution stays running and serves health without credentials', {ti
     const response=await fetch(`http://127.0.0.1:${port}/health`);
     assert.equal(response.status,200);
     assert.deepEqual(await response.json(),{ok:true,accounts_enabled:false});
+    const submission=await fetch(`http://127.0.0.1:${port}/v1/enquiries`,{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});
+    assert.equal(submission.status,503);
     assert.equal(child.exitCode,null);
   } finally {
     child.kill();

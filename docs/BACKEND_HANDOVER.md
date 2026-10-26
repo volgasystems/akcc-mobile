@@ -62,3 +62,17 @@ The website's 10-minute admin inactivity timeout has not been changed.
 
 No migrations, credentials, production records, routes, payment configuration,
 email settings or deployments were modified. HPCC was not accessed or modified.
+
+## Native features update — 26 October 2026
+
+Mobile server POST /v1/enquiries and /v1/absences now forward allowlisted,
+validated plain-text submissions to /api/contact and /api/absence respectively.
+They reuse existing website persistence/notification logic. Tests mock those
+POST requests; no real messages were sent during validation. No website code,
+SQL, admin timeout or production payment configuration was changed.
+The mobile server supports a kill switch (MOBILE_FORMS_ENABLED=false), input
+size limits, five new submissions per IP per minute, and in-process retry
+protection. A durable shared outcome store is required before scaling hosting.
+Calendar/results/news are still based on public HTML while a versioned website
+JSON read API is pending. The current live calendar/results pages explicitly
+show no published items; the app preserves their empty state.

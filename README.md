@@ -1,4 +1,4 @@
-# Auckland Knights mobile app — first working version
+# Auckland Knights mobile app
 
 Separate Expo/TypeScript project for Android and iPhone. Black, gold and white,
 with the existing website PWA logo. No HPCC code. No website writes or deployment.
@@ -9,9 +9,13 @@ with the existing website PWA logo. No HPCC code. No website writes or deploymen
   rows, name/FIDE/NZCF sorting and official FIDE profile links.
 - Live public website reads through the included read-only adapter. No demo
   tournament records, private DB reads or credentials are needed for these reads.
-- Membership join/renew, registration/payment, absence, contact/enquiry, calendar,
-  results/Vega and AGM open the EXISTING website in the system browser.
-  These are browser handoffs, not finished native registration forms.
+- Native calendar and results screens with search, club/open event filters,
+  placings and external Vega/broadcast links. Native news article reading.
+- Native contact/enquiry and round absence forms. These submit to the existing
+  website APIs via the mobile adapter only when a user presses Send. Phone and
+  explicit details confirmation are required. Absence reports are not refunds.
+- Membership join/renew, registration/payment and AGM continue using the existing
+  system-browser website forms. Native payment and account linking remain pending.
 - Error/retry, refresh and empty states; Auckland date formatting.
 - Account sign-in, secure native session storage, editable account metadata,
   current-password check before password change, global sign-out after change,
@@ -81,7 +85,7 @@ Supabase service-role, Stripe secret or SMTP keys as EXPO_PUBLIC variables.
 `npx expo export --platform android --platform ios` validates JS bundles; it
 DOES NOT create APK/IPA installers or verify device behavior.
 
-## API adapter
+## Mobile API adapter
 
 `server/public.mjs` parses only published public markup from fixed AKCC pages.
 It never parses embedded Next.js/RSC data or forwards arbitrary URLs. Tournament
@@ -93,12 +97,20 @@ This temporary adapter avoids website changes and unsafe direct table access.
 HTML layouts can change. Before a production mobile release replace its parser
 with an explicit versioned public JSON API in a coordinated website change.
 It is not a substitute for checking the production database schema and RLS.
-Run the read adapter on a separate Node service with HTTPS, rate limiting and
-monitoring. No credentials are needed for public reads. The API has only GET
-routes; it cannot charge cards, register players or send email.
+Run the adapter on a separate Node service with HTTPS, rate limiting and
+monitoring. No credentials are needed for public reads. New POST routes forward
+validated enquiries and absence reports to the existing website; that website
+continues to save records and handle its notification logic. The mobile adapter
+cannot charge cards or create tournament registrations. Tests use mocked writes.
+Native forms are enabled by default; set MOBILE_FORMS_ENABLED=false in server/.env
+to disable them. Replays share one submission only while the API process retains
+its in-memory outcome record (24 hours maximum). Use a durable shared store and
+trusted-proxy rate limiting before multi-instance production hosting. Never retry
+an uncertain submission automatically or promise email delivery.
 
 `GET /health`, `/v1/feed`, `/v1/tournaments/:slug`,
-`/v1/tournaments/:slug/players`, `/v1/account`.
+`/v1/tournaments/:slug/players`, `/v1/account`, `/v1/calendar`, `/v1/results`,
+`/v1/news/:slug`. POST `/v1/enquiries`, `/v1/absences`.
 
 ## Accounts and SQL
 
@@ -128,18 +140,9 @@ refund, registration, deletion, absence report or enquiry was submitted.
 
 ## GitHub
 
-This directory is a separate local Git repository. Suggested remote:
-`volgasystems/akcc-mobile` (private). The connected tools do not expose repository
-creation; a remote has NOT been created or pushed. After creating that empty
-private repository and granting connector access:
+Source is maintained separately at https://github.com/volgasystems/akcc-mobile.
+Do not push mobile changes into the website repository. Update with
+`git pull --ff-only origin main`, stop/restart the API, then restart Metro with
+`npx expo start --go --clear`. Keep your existing local .env and LAN IP.
 
-```sh
-# If starting from the downloaded source archive:
-git init -b main
-git add .
-git commit -m "Start AKCC mobile app"
-git remote add origin https://github.com/volgasystems/akcc-mobile.git
-git push -u origin main
-```
-
-Do not push this project into the website repository.
+See docs/NATIVE_FEATURES_UPDATE.md for the current implementation and limitations.
