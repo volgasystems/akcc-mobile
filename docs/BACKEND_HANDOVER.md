@@ -76,3 +76,16 @@ protection. A durable shared outcome store is required before scaling hosting.
 Calendar/results/news are still based on public HTML while a versioned website
 JSON read API is pending. The current live calendar/results pages explicitly
 show no published items; the app preserves their empty state.
+
+## Native membership/push preview v0.3.0 — 27 October 2026
+
+The mobile repository adds native membership options/join/renew UI, reusing the
+current website checkout/renewal/recovery contracts. Submissions remain off until
+actual schema/staging validation. New card joins have an additional disabled
+readiness flag. The website's durable card deduplication gap is NOT resolved.
+
+Push proposals add staff-verified tournament links, private device consent,
+source baseline and outbox tables plus server-only eligibility/staging functions.
+No migration or broadcast was executed. Review docs/MEMBERSHIP_AND_PUSH.md and
+the two SQL proposals before changing the shared database. Website source,
+admin timeout, payment webhook and email logic were not modified.

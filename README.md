@@ -14,15 +14,19 @@ with the existing website PWA logo. No HPCC code. No website writes or deploymen
 - Native contact/enquiry and round absence forms. These submit to the existing
   website APIs via the mobile adapter only when a user presses Send. Phone and
   explicit details confirmation are required. Absence reports are not refunds.
-- Membership join/renew, registration/payment and AGM continue using the existing
-  system-browser website forms. Native payment and account linking remain pending.
+- Membership opens a native Join/Renew screen using current public fees/terms.
+  Submission remains disabled pending backend validation. Card payment would use
+  secure Stripe checkout; account linking remains pending. Tournament registration
+  and AGM continue using the existing website flow.
 - Error/retry, refresh and empty states; Auckland date formatting.
 - Account sign-in, secure native session storage, editable account metadata,
   current-password check before password change, global sign-out after change,
   password reset initiation and logout are implemented but configuration-gated.
 - Private membership/payment reads require staff-verified ownership links and
   confirmed Supabase identity. These endpoints are not active by default.
-- Notification UI explains unavailability and requests no permission.
+- Push topic preferences, verified registered-player audiences and a deduplicated
+  announcement outbox/worker are implemented but disabled until services, SQL and
+  development builds are configured. No permission is requested in Expo Go.
 
 ## Start locally
 
@@ -146,3 +150,5 @@ Do not push mobile changes into the website repository. Update with
 `npx expo start --go --clear`. Keep your existing local .env and LAN IP.
 
 See docs/NATIVE_FEATURES_UPDATE.md for the current implementation and limitations.
+
+See docs/MEMBERSHIP_AND_PUSH.md for preview v0.3.0 configuration, safeguards and remaining setup.

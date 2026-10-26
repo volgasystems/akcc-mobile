@@ -1,3 +1,5 @@
+Latest preview v0.3.0: 42 tests pass; see [MEMBERSHIP_AND_PUSH.md](MEMBERSHIP_AND_PUSH.md) for native membership and disabled push-service setup.
+
 Latest update: see [NATIVE_FEATURES_UPDATE.md](NATIVE_FEATURES_UPDATE.md) for 20 passing tests and native form validation. The table below records the initial baseline.
 
 # Validation and remaining device checks

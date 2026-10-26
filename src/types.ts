@@ -6,3 +6,7 @@ export type CalendarData={title:string;items:{slug:string;title:string;date:stri
 export type Result={title:string;date:string;year:string;first:string;second:string;third:string;summary:string;image:string|null;links:{label:string;url:string}[]};
 export type NewsDetail={title:string;date:string;image:string|null;paragraphs:string[];url:string};
 export type FormReply={ok:boolean;reference:string;message:string;email_status:string};
+
+export type MembershipOptions={options:{key:string;name:string;fee_cents:number;description:string;joining_period:string}[];terms:string[];terms_snapshot:string;terms_version:string;writes_enabled:boolean};
+export type MembershipReply={status:string;url?:string;message?:string;bank_transfer?:{account_name:string;account_number:string;reference:string;amount_cents:number}};
+export type PushConfig={enabled:boolean;project_id:string|null;consent_version:string};
