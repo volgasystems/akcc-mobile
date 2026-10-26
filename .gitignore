@@ -7,3 +7,12 @@ server/.env
 *.keystore
 *.p8
 *.p12
+
+.env.*
+!.env.example
+credentials.json
+*.mobileprovision
+*.jks
+*.ipa
+*.apk
+*.aab
