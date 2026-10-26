@@ -12,22 +12,23 @@
     "api": "node --env-file-if-exists=server/.env server/index.mjs"
   },
   "dependencies": {
-    "expo": "~58.0.19",
-    "react": "19.3.0",
-    "react-native": "0.88.0",
+    "@expo/metro-runtime": "~58.0.15",
     "@supabase/supabase-js": "^2.100.0",
     "cheerio": "1.2.0",
-    "expo-secure-store": "~58.0.2",
-    "expo-web-browser": "~58.0.6",
-    "expo-status-bar": "~58.0.4",
-    "react-native-safe-area-context": "~5.10.1",
+    "expo": "~58.0.19",
     "expo-dev-client": "~58.0.15",
+    "expo-secure-store": "~58.0.2",
+    "expo-status-bar": "~58.0.4",
+    "expo-web-browser": "~58.0.6",
+    "react": "19.3.0",
     "react-dom": "19.3.0",
-    "react-native-web": "~0.21.4",
-    "@expo/metro-runtime": "~58.0.15"
+    "react-native": "0.88.0",
+    "react-native-safe-area-context": "~5.10.1",
+    "react-native-web": "~0.21.4"
   },
   "devDependencies": {
-    "typescript": "~5.9.2",
-    "@types/react": "^19.2.0"
+    "@types/react": "^19.2.0",
+    "react-test-renderer": "^19.3.0",
+    "typescript": "~5.9.2"
   }
 }
