@@ -1,0 +1,1 @@
+{"expo":{"name":"Auckland Knights","slug":"akcc-mobile","version":"0.1.0","scheme":"akcc","orientation":"portrait","userInterfaceStyle":"light","icon":"./assets/icon.png","ios":{"supportsTablet":true,"bundleIdentifier":"nz.co.aucklandknights.mobile"},"android":{"package":"nz.co.aucklandknights.mobile"},"plugins":["expo-secure-store","expo-web-browser"]}}
