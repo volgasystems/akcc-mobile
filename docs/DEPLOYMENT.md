@@ -66,3 +66,7 @@ Submission uploads binaries; it does not imply approval/publication. Select inte
 - Website payment-reminder migration/CRON_SECRET and Vercel runtime security check remain unconfirmed; this release work does not resolve them.
 
 References: https://docs.expo.dev/build/eas-json/ ; https://docs.expo.dev/build/internal-distribution/ ; https://developer.apple.com/app-store/review/guidelines/ ; https://support.google.com/googleplay/android-developer/answer/14151465
+
+## Existing project identified (27 October 2026)
+
+EAS CLI confirmed @aucklandknightss-team/auckland-knights with public UUID cf884347-bb5a-4eb9-971f-198a58048076. app.json now contains that owner, slug and extra.eas.projectId, and app.config.js preserves it without requiring an environment variable. A supplied EXPO_PUBLIC_EXPO_PROJECT_ID must match this UUID. This supersedes the earlier pending project-identity instructions; do not create or initialize another project. Run npx eas-cli@latest project:info after updating to verify authenticated access from the owner's computer. No signed build, credential setup or deployment has been completed by this configuration change.
