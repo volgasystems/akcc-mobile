@@ -1,3 +1,4 @@
+import {typography} from './typography';
 import React from 'react';
 import {Alert,Pressable,ScrollView,StyleSheet,Text,View} from 'react-native';
 import {openExternal} from './links';
@@ -43,4 +44,4 @@ export default function RegisteredPlayers({players,sort,onSort}:{players:Player[
     </View>
   );
 }
-const s=StyleSheet.create({section:{gap:12},heading:{fontSize:23,fontWeight:'800',color:'#20221b'},sorts:{flexDirection:'row',gap:8},button:{padding:14,borderRadius:12,backgroundColor:'#ece8dd'},selected:{backgroundColor:'#d0aa55'},buttonText:{fontSize:14,fontWeight:'700',color:'#181b15'},header:{flexDirection:'row',backgroundColor:'#d9d3c4'},row:{flexDirection:'row',backgroundColor:'#fff'},shade:{backgroundColor:'#e8e5de'},cell:{width:100,padding:12,fontSize:13,color:'#282a23'},name:{width:190},bold:{fontWeight:'700'},link:{color:'#70500b',textDecorationLine:'underline'},note:{fontSize:15,lineHeight:23,color:'#55574f'}});
+const s=StyleSheet.create({section:{gap:12},heading:{...typography.section,fontWeight:'800',color:'#20221b'},sorts:{flexDirection:'row',gap:8},button:{padding:14,borderRadius:12,backgroundColor:'#ece8dd'},selected:{backgroundColor:'#d0aa55'},buttonText:{...typography.button,fontWeight:'700',color:'#181b15'},header:{flexDirection:'row',backgroundColor:'#d9d3c4'},row:{flexDirection:'row',backgroundColor:'#fff'},shade:{backgroundColor:'#e8e5de'},cell:{...typography.label,width:100,padding:12,color:'#282a23'},name:{width:190},bold:{fontWeight:'700'},link:{color:'#70500b',textDecorationLine:'underline'},note:{...typography.body,color:'#55574f'}});

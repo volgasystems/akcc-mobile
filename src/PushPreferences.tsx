@@ -1,3 +1,4 @@
+import {typography} from './typography';
 import React,{useEffect,useState}from'react';
 import{ActivityIndicator,Pressable,StyleSheet,Text,View}from'react-native';
 import type{Session}from'@supabase/supabase-js';
@@ -22,4 +23,4 @@ export default function PushPreferences({session}:{session:Session|null}){
   {!!message?<Text accessibilityRole="alert"style={s.notice}>{message}</Text>:null}
  </View>;
 }
-const s=StyleSheet.create({card:{backgroundColor:'#fff',borderWidth:1,borderColor:'#e3ded2',borderRadius:16,padding:16,gap:12},title:{fontSize:21,fontWeight:'800',color:'#20221b'},body:{fontSize:15,lineHeight:23,color:'#55574f'},small:{fontSize:12,lineHeight:19,color:'#74756c'},notice:{fontSize:14,lineHeight:21,color:'#765614'},choice:{padding:12,borderWidth:1,borderColor:'#e3ded2',borderRadius:10},button:{backgroundColor:'#d0aa55',padding:14,borderRadius:10},buttonText:{fontSize:14,fontWeight:'700',color:'#181b15'}});
+const s=StyleSheet.create({card:{backgroundColor:'#fff',borderWidth:1,borderColor:'#e3ded2',borderRadius:16,padding:16,gap:12},title:{...typography.section,fontWeight:'800',color:'#20221b'},body:{...typography.body,color:'#55574f'},small:{...typography.caption,color:'#74756c'},notice:{...typography.button,color:'#765614'},choice:{padding:12,borderWidth:1,borderColor:'#e3ded2',borderRadius:10},button:{backgroundColor:'#d0aa55',padding:14,borderRadius:10},buttonText:{...typography.button,fontWeight:'700',color:'#181b15'}});
