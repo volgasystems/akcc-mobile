@@ -1,4 +1,5 @@
 import { createServer } from 'node:http';
+import { pathToFileURL } from 'node:url';
 import { createClient } from '@supabase/supabase-js';
 import { publicService } from './public.mjs';
 const reads = publicService();
@@ -33,4 +34,12 @@ export const server = createServer(async (req,res) => {
     return send(404,{error:'Not found'});
   } catch {return send(503,{error:'Club information is temporarily unavailable. Please retry or visit the website.'});}
 });
-if (process.argv[1]?.endsWith('/server/index.mjs')) server.listen(Number(process.env.PORT || 8787),'0.0.0.0',()=>console.log('AKCC read API listening'));
+// Compare file URLs so Windows backslashes and spaces work as well as POSIX paths.
+export function isDirectRun(entry, moduleUrl = import.meta.url, windows = process.platform === 'win32') {
+  return !!entry && pathToFileURL(entry, { windows }).href === moduleUrl;
+}
+if (isDirectRun(process.argv[1])) {
+  server.listen(Number(process.env.PORT || 8787), '0.0.0.0', () => {
+    console.log(`AKCC read API listening on port ${server.address().port}`);
+  });
+}
